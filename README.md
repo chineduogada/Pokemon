@@ -1,4 +1,4 @@
-# Pokemon App
+# Pokemon Moblie Friendly App
 
 ## Test the project Manually
 
@@ -7,4 +7,4 @@ Here is the link to this [Code sandbox](https://codesandbox.io/s/frosty-butterfl
 
 ## View App in Production
 
-Here is the production link to this [Pokemon App](https://sr-react-dev-fulfil-exercise.vercel.app/) project.
+Here is the production link to this [Pokemon App](https://z23vy.csb.app/) project.
