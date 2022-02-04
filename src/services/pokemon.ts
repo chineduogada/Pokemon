@@ -26,7 +26,12 @@ export const getManyPokemonCharacters = async (): Promise<
   const getPath = () => `/pokemon`;
 
   // Get the response or an empty Object {}
-  const allCharacters = (await (await http.get(getPath()))?.data) || {};
+  const allCharacters =
+    (await (
+      await http.get(getPath(), {
+        params: { offset: `${Math.floor(Math.random() * 10) + 2}0` }
+      })
+    )?.data) || {};
 
   return {
     count: allCharacters.count as number,
