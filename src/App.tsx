@@ -1,4 +1,4 @@
-import { Grid } from "@chakra-ui/react";
+import { Box, Grid, Heading } from "@chakra-ui/react";
 import { useCallback, useEffect } from "react";
 import Providers from "./Providers";
 import {
@@ -24,14 +24,23 @@ export default function App() {
 
   return (
     <Providers>
-      {resource.data?.count}
-      {resource.data?.results.length}
+      <Box w="100vw" h="100vh" bg="gray.100">
+        <Heading as="h1" p={10}>
+          Cribstack Test
+        </Heading>
 
-      <Grid>
-        {resource.data?.results.map((character) => (
-          <CharacterView key={character.name} {...character} />
-        ))}
-      </Grid>
+        <Grid
+          gridTemplateColumns="repeat(auto-fit, minmax(250px, 1fr))"
+          gridGap="10"
+          p={5}
+          mx="auto"
+          maxW="1000px"
+        >
+          {resource.data?.results.map((character) => (
+            <CharacterView key={character.name} {...character} />
+          ))}
+        </Grid>
+      </Box>
     </Providers>
   );
 }
