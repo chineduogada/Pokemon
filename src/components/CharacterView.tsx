@@ -8,6 +8,8 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
+  SkeletonCircle,
+  SkeletonText,
   Stack,
   Tag,
   Text,
@@ -91,17 +93,16 @@ export const CharacterView = ({
         />
 
         <Flex>
-          <Box pos="relative" w="150px" h="150px">
+          <Box pos="relative" boxSize="150px">
             <Box
               pos="absolute"
               border="10px solid"
               borderColor="gray.400"
               rounded="full"
-              w="60%"
-              h="60%"
+              boxSize="60%"
             ></Box>
 
-            <Image src={image} pos="relative" w="100%" h="100%" />
+            <Image src={image} pos="relative" boxSize="100%" />
           </Box>
 
           {isModalView && (
@@ -186,6 +187,12 @@ export const CharacterView = ({
       }}
       pos="relative"
     >
+      {resource.loading && (
+        <>
+          <SkeletonCircle boxSize="150px" mb={5} />
+          <SkeletonText />
+        </>
+      )}
       {resource.data && (
         <MoreDetailsView
           renderTrigger={(onOpen) => (
