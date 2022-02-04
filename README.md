@@ -3,7 +3,7 @@
 ## Test the project Manually
 
 
-Here is the link to this [Code sandbox](https://codesandbox.io/s/frosty-butterfly-z23vy) project.
+Here is the link to this [Codesandbox](https://codesandbox.io/s/frosty-butterfly-z23vy) project.
 
 ## View App in Production
 
