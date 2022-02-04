@@ -29,7 +29,7 @@ export default function App() {
   return (
     <Providers>
       <Box w="100vw" h="100vh" bg="gray.100">
-        <Flex alignItems="center">
+        <Flex alignItems="center" flexWrap="wrap">
           <Heading as="h1" p={{ base: 5, md: 10 }}>
             Cribstack Test
           </Heading>
