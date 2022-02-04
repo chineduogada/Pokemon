@@ -4,7 +4,6 @@ import {
   Heading,
   Image,
   Modal,
-  ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
