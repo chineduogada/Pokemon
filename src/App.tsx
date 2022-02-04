@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Grid, Heading, Text } from "@chakra-ui/react";
 import { useCallback, useEffect } from "react";
+import { FiRefreshCcw } from "react-icons/fi";
 import Providers from "./Providers";
 import {
   GetManyPokemonCharactersReturnType,
@@ -29,9 +30,15 @@ export default function App() {
   return (
     <Providers>
       <Box w="100vw" h="100vh" bg="gray.100">
-        <Flex alignItems="center" flexWrap="wrap">
-          <Heading as="h1" p={{ base: 5, md: 10 }}>
-            Cribstack Test
+        <Flex
+          alignItems="center"
+          gridGap={5}
+          flexDirection={{ base: "column", md: "row" }}
+          p={{ base: 5, md: 10 }}
+          pb={10}
+        >
+          <Heading as="h1" pb={{ base: 10, md: 0 }} mr={{ md: 10 }}>
+            Cribstack Pokemon Test
           </Heading>
 
           <Button
@@ -43,6 +50,7 @@ export default function App() {
             0 100px 80px rgba(0, 0, 0, 0.12)`}
             onClick={handleFetch}
             mr={5}
+            leftIcon={<FiRefreshCcw />}
           >
             Refresh
           </Button>
