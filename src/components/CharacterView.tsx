@@ -1,5 +1,19 @@
-import { Box, Flex, Heading, Image, Tag, Text } from "@chakra-ui/react";
-import { useCallback, useEffect } from "react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Image,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalOverlay,
+  Stack,
+  Tag,
+  Text,
+  useDisclosure
+} from "@chakra-ui/react";
+import { ReactNode, useCallback, useEffect } from "react";
 import { useFetch } from "../hooks";
 import {
   CharacterListItem,
@@ -9,6 +23,37 @@ import {
 
 interface CharacterViewProps extends CharacterListItem {
   isLoading?: boolean;
+}
+
+const wrapperShadow = `0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+0 12.5px 10px rgba(0, 0, 0, 0.06),
+0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+0 100px 80px rgba(0, 0, 0, 0.12)`;
+
+function MoreDetailsView({
+  renderTrigger,
+  renderContent
+}: {
+  renderTrigger: (onOpen: () => void) => any;
+  renderContent: () => ReactNode;
+}) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  return (
+    <>
+      {renderTrigger(onOpen)}
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent shadow={wrapperShadow} p={5} rounded="2em">
+          <ModalCloseButton rounded="full" />
+
+          {renderContent()}
+        </ModalContent>
+      </Modal>
+    </>
+  );
 }
 
 export const CharacterView = ({ name, isLoading }: CharacterViewProps) => {
@@ -23,56 +68,117 @@ export const CharacterView = ({ name, isLoading }: CharacterViewProps) => {
     handleFetchResource({ fetcher: handleFetch });
   }, [handleFetchResource, handleFetch]);
 
-  const renderContent = () => {
-    const { image, name, abilities, moves, types, height, weight } =
+  const renderContent = (isModalView?: boolean) => {
+    // isModalView = true;
+
+    const { image, name, abilities: ability, moves, types, height, weight } =
       resource.data || ({} as Character);
 
     return (
       <>
-        <Box pos="relative" w="150px" h="150px">
-          <Box
-            pos="absolute"
-            border="10px solid"
-            borderColor="gray.400"
-            rounded="full"
-            w="60%"
-            h="60%"
-          ></Box>
+        <Flex>
+          <Box pos="relative" w="150px" h="150px">
+            <Box
+              pos="absolute"
+              border="10px solid"
+              borderColor="gray.400"
+              rounded="full"
+              w="60%"
+              h="60%"
+            ></Box>
 
-          <Image src={image} pos="relative" w="100%" h="100%" />
-        </Box>
+            <Image src={image} pos="relative" w="100%" h="100%" />
+          </Box>
 
-        <Heading size="lg" textTransform="capitalize" my={2}>
+          {isModalView && (
+            <Stack pl={10}>
+              <Text>
+                Height: <b>{height}</b>
+              </Text>
+              <Text>
+                Weight: <b>{weight}</b>
+              </Text>
+            </Stack>
+          )}
+        </Flex>
+
+        <Heading size="lg" textTransform="capitalize" my={3}>
           {name}
         </Heading>
 
-        <Flex justifyContent="flex-end" gridGap={2}>
-          {types.map((type, i) => (
-            <Tag key={i}>{type}</Tag>
-          ))}
-        </Flex>
+        {!isModalView && (
+          <Flex justifyContent="flex-end" gridGap={2}>
+            {types.map((type, i) => (
+              <Tag key={i} size={isModalView ? "lg" : "md"}>
+                {type}
+              </Tag>
+            ))}
+          </Flex>
+        )}
+
+        {isModalView && (
+          <Stack spacing={10} mt={10}>
+            <Stack>
+              <Heading size="md">List of types</Heading>
+
+              <Flex flexWrap="wrap" gridGap="5">
+                {types.map((type, i) => (
+                  <Tag key={i} size={"lg"}>
+                    {type}
+                  </Tag>
+                ))}
+              </Flex>
+            </Stack>
+
+            <Stack h="300px" overflowY="auto">
+              <Heading size="md">List of moves</Heading>
+
+              <Flex flexWrap="wrap" gridGap="5">
+                {moves.map((move, i) => (
+                  <Tag key={i} size={"lg"}>
+                    {move}
+                  </Tag>
+                ))}
+              </Flex>
+            </Stack>
+
+            <Stack h="300px" overflowY="auto">
+              <Heading size="md">List of abilities</Heading>
+
+              <Flex flexWrap="wrap" gridGap="5">
+                {ability.map((abilitie, i) => (
+                  <Tag key={i} size={"lg"}>
+                    {abilitie}
+                  </Tag>
+                ))}
+              </Flex>
+            </Stack>
+          </Stack>
+        )}
       </>
     );
   };
 
   return (
     <Box
-      shadow={`0 2.8px 2.2px rgba(0, 0, 0, 0.034),
-            0 6.7px 5.3px rgba(0, 0, 0, 0.048),
-            0 12.5px 10px rgba(0, 0, 0, 0.06),
-            0 22.3px 17.9px rgba(0, 0, 0, 0.072),
-            0 41.8px 33.4px rgba(0, 0, 0, 0.086),
-            0 100px 80px rgba(0, 0, 0, 0.12)`}
+      shadow={wrapperShadow}
       bg="white"
       p={5}
       rounded="2em"
       transition=".5s"
       _hover={{
-        transform: "perspective(50em) rotateX(5deg)",
+        transform: "perspective(50em) rotateX(10deg)",
         cursor: "pointer"
       }}
     >
-      {resource.data && renderContent()}
+      {resource.data && (
+        <MoreDetailsView
+          renderTrigger={(onOpen) => (
+            <Box onClick={onOpen}>{renderContent()}</Box>
+          )}
+          renderContent={renderContent.bind(null, true)}
+        />
+      )}
     </Box>
   );
 };
