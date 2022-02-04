@@ -6,10 +6,10 @@ import {
   getManyPokemonCharacters
 } from "./services";
 import { useFetch } from "./hooks";
-import { CharacterView } from "./components";
+import { AddRandomBtn, CharacterView } from "./components";
 
 export default function App() {
-  const { resource, handleFetchResource } = useFetch<
+  const { resource, setResource, handleFetchResource } = useFetch<
     GetManyPokemonCharactersReturnType
   >();
   const handleFetch = useCallback(() => {
@@ -25,6 +25,8 @@ export default function App() {
   useEffect(() => {
     handleFetch();
   }, [handleFetch]);
+
+  
 
   return (
     <Providers>
@@ -42,9 +44,12 @@ export default function App() {
             0 41.8px 33.4px rgba(0, 0, 0, 0.086),
             0 100px 80px rgba(0, 0, 0, 0.12)`}
             onClick={handleFetch}
+            mr={5}
           >
             Refresh
           </Button>
+
+          <AddRandomBtn setCharactesrList={setResource} />
         </Flex>
 
         <Grid
