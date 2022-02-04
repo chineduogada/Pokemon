@@ -20,9 +20,11 @@ import {
   Character,
   getOnePokemonCharacter
 } from "../services";
+import { DeleteOneBtn } from "./DeleteOneBtn";
 
 interface CharacterViewProps extends CharacterListItem {
   isLoading?: boolean;
+  setCharactesrList: any;
 }
 
 const wrapperShadow = `0 2.8px 2.2px rgba(0, 0, 0, 0.034),
@@ -56,7 +58,11 @@ function MoreDetailsView({
   );
 }
 
-export const CharacterView = ({ name, isLoading }: CharacterViewProps) => {
+export const CharacterView = ({
+  name,
+  isLoading,
+  setCharactesrList
+}: CharacterViewProps) => {
   const { resource, handleFetchResource } = useFetch<Character>();
   const handleFetch = useCallback(async () => {
     const data: Character = await getOnePokemonCharacter(name);
@@ -76,6 +82,14 @@ export const CharacterView = ({ name, isLoading }: CharacterViewProps) => {
 
     return (
       <>
+        <DeleteOneBtn
+          pos="absolute"
+          top={isModalView ? "50px" : 5}
+          right={isModalView ? 3 : 5}
+          setCharactesrList={setCharactesrList}
+          name={name}
+        />
+
         <Flex>
           <Box pos="relative" w="150px" h="150px">
             <Box
@@ -170,6 +184,7 @@ export const CharacterView = ({ name, isLoading }: CharacterViewProps) => {
         transform: "perspective(50em) rotateX(10deg)",
         cursor: "pointer"
       }}
+      pos="relative"
     >
       {resource.data && (
         <MoreDetailsView

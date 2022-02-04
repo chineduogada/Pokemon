@@ -1,5 +1,6 @@
 import { Button } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
+import { FaPlus } from "react-icons/fa";
 import { useFetch } from "../hooks";
 import { Character, getOnePokemonCharacter } from "../services";
 
@@ -39,7 +40,7 @@ export const AddRandomBtn = ({ setCharactesrList }: AddRandomProps) => {
       setCharactesrList((prev: any) => ({
         ...prev,
         data: {
-          count: prev.data.count + 1,
+          ...prev.data,
           results: [resource.data, ...prev.data.results]
         }
       }));
@@ -61,9 +62,10 @@ export const AddRandomBtn = ({ setCharactesrList }: AddRandomProps) => {
 
         setHasFetched(true);
       }}
-      colorScheme="red"
+      colorScheme="blue"
+      leftIcon={<FaPlus />}
     >
-      + Add a random character
+      Add a random character
     </Button>
   );
 };

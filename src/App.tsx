@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Grid, Heading } from "@chakra-ui/react";
+import { Box, Button, Flex, Grid, Heading, Text } from "@chakra-ui/react";
 import { useCallback, useEffect } from "react";
 import Providers from "./Providers";
 import {
@@ -26,13 +26,11 @@ export default function App() {
     handleFetch();
   }, [handleFetch]);
 
-  
-
   return (
     <Providers>
       <Box w="100vw" h="100vh" bg="gray.100">
         <Flex alignItems="center">
-          <Heading as="h1" p={10}>
+          <Heading as="h1" p={{ base: 5, md: 10 }}>
             Cribstack Test
           </Heading>
 
@@ -52,6 +50,10 @@ export default function App() {
           <AddRandomBtn setCharactesrList={setResource} />
         </Flex>
 
+        <Text as="i" p={{ base: 5, md: 10 }}>
+          Showing <b>{resource.data?.results.length}</b> characters
+        </Text>
+
         <Grid
           gridTemplateColumns="repeat(auto-fit, minmax(250px, 1fr))"
           gridGap="10"
@@ -60,7 +62,11 @@ export default function App() {
           maxW="1000px"
         >
           {resource.data?.results.map((character) => (
-            <CharacterView key={character.name} {...character} />
+            <CharacterView
+              key={character.name}
+              setCharactesrList={setResource}
+              {...character}
+            />
           ))}
         </Grid>
       </Box>
